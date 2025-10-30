@@ -2,4 +2,4 @@
 
 ## Retrieve
 
-book = Book.objects.all()
+book = Book.objects.get("1984")
