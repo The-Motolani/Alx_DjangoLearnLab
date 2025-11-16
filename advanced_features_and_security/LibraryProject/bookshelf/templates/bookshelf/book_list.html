@@ -6,10 +6,12 @@
         <title>Book List</title>
     </head>
     <body>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+        <h1>Books</h1>
+<ul>
+{% for book in books %}
+    <li>{{ book.title }}</li>
+{% endfor %}
+</ul>
+
     </body>
 </html>

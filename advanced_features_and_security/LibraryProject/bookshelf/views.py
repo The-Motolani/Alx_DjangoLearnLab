@@ -4,7 +4,12 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import permission_required, login_required
 from .models import Book
-from .forms import BookForm 
+from .forms import BookForm
+from .forms import ExampleForm
+
+def example_form_view(request):
+    form = ExampleForm()
+    return render(request, "bookshelf/form_example.html", {"form": form})
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):

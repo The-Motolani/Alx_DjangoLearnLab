@@ -5,6 +5,9 @@ from .models import Book
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from .models import CustomUser
+from django.contrib.auth import get_user_model
+from .forms import CustomUserChangeForm, CustomUserCreationForm
+
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publication_year')
@@ -16,19 +19,19 @@ admin.site.register(Book)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
     model = CustomUser
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'date_of_birth', 'profile_photo')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+
+    list_display = ["username", "email", "date_of_birth", "is_staff"]
+    fieldsets = UserAdmin.fieldsets + (
+        ("Additional Info", {"fields": ("date_of_birth", "profile_photo")}),
     )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'date_of_birth', 'profile_photo'),
-        }),
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ("Additional Info", {"fields": ("date_of_birth", "profile_photo")}),
     )
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
+
+    admin.site.register(CustomUser, CustomUserAdmin)
