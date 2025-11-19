@@ -1,13 +1,13 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticated
 
-class BookList(ListAPIView):
+class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
