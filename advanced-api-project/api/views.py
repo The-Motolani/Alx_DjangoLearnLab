@@ -26,7 +26,7 @@ class BookListView(generics.ListAPIView):
 
     filter_backends = [
         filters.DjangoFilterBackend,
-        SearchFilter,
+        filters.SearchFilter,
         filters.OrderingFilter
     ]
 
